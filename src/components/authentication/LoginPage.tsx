@@ -6,12 +6,58 @@ import Link from 'next/link'
 import { FcGoogle } from 'react-icons/fc'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
+interface Errors {
+  email?: string;
+  password?: string;
+}
+
 export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Errors>({});
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   }
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const newErrors: Errors = {};
+
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    const passwordInput = form.elements.namedItem('password') as HTMLInputElement;
+
+    if (!emailInput.value.trim()) {
+      newErrors.email = 'Alamat email tidak boleh kosong';
+    } else if (!validateEmail(emailInput.value.trim())) {
+      newErrors.email = 'Alamat email tidak valid';
+    }
+    if (!passwordInput.value.trim()) {
+      newErrors.password = 'Password tidak boleh kosong';
+    } else if (passwordInput.value.length < 8) {
+      newErrors.password = 'Password minimal 8 karakter';
+    }
+
+    setErrors(newErrors);
+  }
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (value.trim()) {
+        delete newErrors[name as keyof Errors];
+      } else {
+        newErrors[name as keyof Errors] = `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+      }
+      return newErrors;
+    });
+  };
 
   return (
     <div>
@@ -40,7 +86,7 @@ export const LoginPage: React.FC = () => {
             <span className='mx-2 text-gray-500'>atau masuk dengan email anda</span>
             <hr className='flex-grow border-t border-gray-300' />
           </div>
-          <form className='text-xs lg:text-base flex flex-col'>
+          <form className='text-xs lg:text-base flex flex-col' onSubmit={validateForm}>
             <label htmlFor='email' className='font-semibold mb-2'>
               Alamat Email
             </label>
@@ -48,9 +94,11 @@ export const LoginPage: React.FC = () => {
               type='text'
               id='email'
               name='email'
-              placeholder='Email Address'
-              className='border border-black rounded-xl sm:rounded-2xl p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent'
+              placeholder='Alamat Email'
+              className={`border ${errors.email ? 'border-[#FF7387]' : 'border-black'} rounded-xl sm:rounded-2xl p-2 sm:p-3 focus:outline-none focus:ring-2 ${errors.email ? 'focus:ring-[#FF7387]' : 'focus:ring-primary'} focus:border-transparent`}
+              onChange={handleInputChange}
             />
+            {errors.email && <span className='text-[#FF7387] mt-1'>{errors.email}</span>}
             
             <label htmlFor='password' className='font-semibold mt-4 mb-2'>
               Password
@@ -61,7 +109,8 @@ export const LoginPage: React.FC = () => {
                 id='password' 
                 name='password' 
                 placeholder='Password' 
-                className='border border-black rounded-xl sm:rounded-2xl p-2 sm:p-3 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent'
+                className={`border ${errors.password ? 'border-[#FF7387]' : 'border-black'} rounded-xl sm:rounded-2xl p-2 sm:p-3 w-full pr-10 focus:outline-none focus:ring-2 ${errors.password ? 'focus:ring-[#FF7387]' : 'focus:ring-primary'} focus:border-transparent`}
+                onChange={handleInputChange}
               />
               <button 
                 type='button' 
@@ -71,6 +120,7 @@ export const LoginPage: React.FC = () => {
                 {showPassword ? <AiOutlineEyeInvisible className='text-2xl'/> : <AiOutlineEye className='text-2xl'/>}
               </button>
             </div>
+            {errors.password && <span className='text-[#FF7387] mt-1'>{errors.password}</span>}
             
             <button
               type='submit'
