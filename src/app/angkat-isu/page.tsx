@@ -6,6 +6,7 @@ import { SampaikanIsu } from '@/components/angkat-isu/SampaikanIsu';
 import { Navbar } from '@/components/common/Navbar';
 import { Issue } from '@/components/angkat-isu/Issue';
 import { SideBar } from '@/components/angkat-isu/SideBar';
+import Footer from '@/components/common/Footer';
 
 const dummyIssues = [
   {
@@ -72,6 +73,7 @@ export default function Page() {
             </div>
           </div>
         </>
+        <Footer />
       </div>
     </div>
   );

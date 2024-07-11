@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FaRegCircleUser } from 'react-icons/fa6';
 import { MdInsertEmoticon } from 'react-icons/md';
 import { IoImageOutline } from 'react-icons/io5';
 import EmojiPicker from 'emoji-picker-react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export const SampaikanIsu: React.FC = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
