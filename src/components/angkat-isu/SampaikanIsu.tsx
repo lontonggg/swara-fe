@@ -1,16 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { IoImageOutline } from 'react-icons/io5';
+import { useDropzone } from 'react-dropzone';
+import { FaRegCircleUser } from 'react-icons/fa6';
 import { MdInsertEmoticon } from 'react-icons/md';
+import { IoImageOutline } from 'react-icons/io5';
+import EmojiPicker from 'emoji-picker-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const SampaikanIsu: React.FC = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
+  const [images, setImages] = useState<File[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
   const emojiPickerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const maxCharacters = 3000;
+  const maxImages = 4;
   const maxTitleCharacters = 80;
 
   const handleInputFocus = () => {
@@ -19,6 +27,12 @@ export const SampaikanIsu: React.FC = () => {
 
   const handleClosePopup = () => {
     setIsPopupVisible(false);
+  };
+
+  const handleEmojiClick = (emojiData: any) => {
+    if (text.length + emojiData.emoji.length <= maxCharacters) {
+      setText((prevText) => prevText + emojiData.emoji);
+    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -54,6 +68,21 @@ export const SampaikanIsu: React.FC = () => {
     } else {
       return 'text-red-500';
     }
+  };
+
+  const onDrop = (acceptedFiles: File[]) => {
+    if (images.length + acceptedFiles.length <= maxImages) {
+      setImages((prevImages) => [...prevImages, ...acceptedFiles]);
+      setErrorMessage('');
+    } else {
+      setErrorMessage(`You can only upload up to ${maxImages} images.`);
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, accept: { 'image/*': [] } });
+
+  const removeImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   return (
@@ -112,14 +141,49 @@ export const SampaikanIsu: React.FC = () => {
               >
                 <MdInsertEmoticon className='text-2xl' />
               </button>
+              {showEmojiPicker && (
+                <div
+                  className='absolute bottom-12 left-4 z-50'
+                  ref={emojiPickerRef}
+                >
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
               <div className={`absolute bottom-4 sm:bottom-6 right-2 sm:right-4 text-xs md:text-sm ${getCounterColor(text.length, maxCharacters)}`}>
                 {text.length}/{maxCharacters}
               </div>
             </div>
+            {errorMessage && (
+              <div className='text-red-500 text-sm mb-4'>
+                {errorMessage}
+              </div>
+            )}
+            {images.length > 0 && (
+              <div className='flex gap-2 mt-4'>
+                {images.map((image, index) => (
+                  <div key={index} className='relative'>
+                    <Image
+                      src={URL.createObjectURL(image)}
+                      alt={`upload-preview-${index}`}
+                      className='w-20 h-20 object-cover rounded-lg'
+                      width={80}
+                      height={80}
+                    />
+                    <button
+                      className='absolute top-0 right-0 text-primary rounded-full p-1 text-2xl font-bold'
+                      onClick={() => removeImage(index)}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className='flex justify-between mt-4'>
-              <button className='flex items-center gap-2 text-primary'>
+              <button className='flex items-center gap-2 text-primary' {...getRootProps()}>
                 <IoImageOutline className='text-xl sm:text-3xl' />
                 <span className='text-black text-sm sm:text-lg hover:text-primary transition duration-300'>Unggah gambar</span>
+                <input {...getInputProps()} />
               </button>
             </div>
             <div className='flex justify-center mt-4'>
