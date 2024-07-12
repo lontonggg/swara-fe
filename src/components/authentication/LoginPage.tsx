@@ -5,6 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FcGoogle } from 'react-icons/fc'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import APIService from '@/services/APIService'
+import { toast } from 'react-hot-toast'
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 interface Errors {
   email?: string;
@@ -14,6 +18,7 @@ interface Errors {
 export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -24,7 +29,7 @@ export const LoginPage: React.FC = () => {
     return re.test(String(email).toLowerCase());
   }
 
-  const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const validateForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const newErrors: Errors = {};
@@ -44,6 +49,38 @@ export const LoginPage: React.FC = () => {
     }
 
     setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      const userData = {
+        Email: emailInput.value,
+        Password: passwordInput.value,
+      };
+    
+      const loginPromise = APIService.login(userData);
+    
+      toast.promise(
+        loginPromise,
+        {
+          loading: 'Sedang masuk...',
+          success: (response) => {
+            Cookies.set('token', response.Token, { expires: 0.5 });
+            Cookies.set('firstName', response.FirstName, { expires: 0.5 });
+            router.push('/')
+            return `Selamat datang, ${response.FirstName}!`;
+          },
+          error: (err) => {
+            return err.message || 'Failed to login';
+          },
+        },
+        {
+          style: {
+            zIndex: 9999,
+            fontSize: '18px',
+            padding: '14px',
+          },
+        }
+      );
+    }
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,3 +174,5 @@ export const LoginPage: React.FC = () => {
     </div>
   )
 }
+
+export default LoginPage;

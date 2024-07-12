@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "SWARA",
@@ -14,8 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className='font-poppins leading-loose'>
+      <body className="font-poppins leading-loose">
         {children}
+        <Toaster />
       </body>
     </html>
   );
