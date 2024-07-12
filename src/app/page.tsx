@@ -63,7 +63,7 @@ export default function Home() {
           <Image src="/beranda/cari-tau.png" width={400} height={400} alt="main-poster" className="absolute -left-[100px] bottom-[200px] -rotate-[10deg]"/>
           <Image src="/beranda/cari-tau-1.png" width={400} height={400} alt="main-poster" className="absolute -right-[100px] -top-[60px] -rotate-[20deg]"/>
         </div>
-        <div className="relative flex flex-col justify-center gap-6 border-2 border-gray-300 rounded-3xl p-16 pl-[600px] bg-white shadow-md mt-10 md:mt-0 font-semibold text-left overflow-hidden my-14">
+        <div className="relative flex flex-col justify-center gap-6 border-2 border-gray-300 rounded-3xl p-16 pl-[700px] bg-white shadow-md mt-10 md:mt-0 font-semibold text-left overflow-hidden my-14">
           <h1 className="text-primary text-5xl mt-16">Bantuan</h1>
           <p className="text-2xl font-semibold">Hubungi kami untuk mendapatkan bantuan hukum</p>
           <Link href="/bantuan">
@@ -71,7 +71,7 @@ export default function Home() {
             Cobain yuk!
             </button>
           </Link>
-          <Image src="/beranda/bantuan.png" width={400} height={400} alt="main-poster" className="absolute left-[100px] bottom-[50px] -rotate-[10deg]"/>
+          <Image src="/beranda/bantuan.png" width={400} height={400} alt="main-poster" className="absolute left-[200px] bottom-[50px] -rotate-[10deg]"/>
         </div>
         <div className="my-10">
           <Footer />
