@@ -137,6 +137,9 @@ export const Navbar = () => {
               <Link href='/cari-tau'>
                 <h1 className={`text-left ${pathname.startsWith('/cari-tau') ? 'text-primary' : ''} hover:text-primary/80 transition-colors duration-300 mb-4`}>Cari Tau</h1>
               </Link>
+              <Link href='/bantuan'>
+                <h1 className={`text-left ${pathname.startsWith('/bantuan') ? 'text-primary' : ''} hover:text-primary/80 transition-colors duration-300 mb-4`}>Bantuan</h1>
+              </Link>
               {firstName ? (
                 <div className='relative'>
                   <h1 className='flex items-center cursor-pointer mb-4' onClick={toggleDropdown}>
