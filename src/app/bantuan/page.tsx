@@ -124,7 +124,7 @@ export default function Page() {
                   id='pesan'
                   name='pesan'
                   placeholder='Masukkan pesan'
-                  className={`border ${errors.pesan ? 'border-[#FF7387]' : 'border-primary'} rounded-xl p-2 focus:outline-none focus:ring-2 ${errors.pesan ? 'focus:ring-[#FF7387]' : 'focus:ring-primary'} focus:border-transparent w-full h-64 max-h-64 overflow-y-auto resize-none`}
+                  className={`border ${errors.pesan ? 'border-[#FF7387]' : 'border-primary'} rounded-xl p-2 focus:outline-none focus:ring-2 ${errors.pesan ? 'focus:ring-[#FF7387]' : 'focus:ring-primary'} focus:border-transparent w-full h-36 max-h-36 overflow-y-auto resize-none`}
                   onChange={handleInputChange}
                 ></textarea>
                 {errors.pesan && <span className='text-[#FF7387]'>{errors.pesan}</span>}
@@ -139,27 +139,29 @@ export default function Page() {
               </div>
             </form>
           </div>
-          <div className='border-2 border-gray-300 rounded-3xl py-8 px-8 bg-white shadow-md mt-10 md:mt-0 flex flex-col items-center  space-y-8'>
+          <div className='flex flex-col items-center justify-center space-y-8 h-full'>
             <h2 className='text-2xl font-bold text-primary mb-4'>Layanan Pelanggan</h2>
-            <div className='space-y-6 w-full text-justify'>
-              <div className='flex items-center'>
-                <div className='bg-primary rounded-full p-3 text-white'>
-                  <FaEnvelope className='text-xl' />
+            <div className='border-2 border-gray-300 rounded-3xl py-8 px-8 bg-white shadow-md mt-10 md:mt-0 h-full'> 
+                <div className='space-y-6 w-full text-justify flex flex-col justify-center h-full'>
+                    <div className='flex items-center border border-gray-300 rounded-xl p-6'>
+                        <div className='bg-primary rounded-full p-3 text-white'>
+                        <FaEnvelope className='text-xl' />
+                        </div>
+                        <span className='ml-4 text-base font-medium'>swarawebs@gmail.com</span>
+                    </div>
+                    <div className='flex items-center border border-gray-300 rounded-xl p-6'>
+                        <div className='bg-primary rounded-full p-3 text-white'>
+                        <FaMapMarkerAlt className='text-xl' />
+                        </div>
+                        <span className='ml-4 text-base font-medium'>Jl. Grand Jagakarsa, RT.9/RW.7, Jagakarsa, Kec. Jagakarsa, Kota Jakarta Selatan, DKI Jakarta 12620</span>
+                    </div>
+                    <div className='flex items-center border border-gray-300 rounded-xl p-6'>
+                        <div className='bg-primary rounded-full p-3 text-white'>
+                        <FaPhoneAlt className='text-xl' />
+                        </div>
+                        <span className='ml-4 text-base font-medium'>+6281234567890</span>
+                    </div>
                 </div>
-                <span className='ml-4 text-base'>swarawebs@gmail.com</span>
-              </div>
-              <div className='flex items-center'>
-                <div className='bg-primary rounded-full p-3 text-white'>
-                  <FaMapMarkerAlt className='text-xl' />
-                </div>
-                <span className='ml-4 text-base'>Jl. Grand Jagakarsa, RT.9/RW.7, Jagakarsa, Kec. Jagakarsa, Kota Jakarta Selatan, DKI Jakarta 12620</span>
-              </div>
-              <div className='flex items-center'>
-                <div className='bg-primary rounded-full p-3 text-white'>
-                  <FaPhoneAlt className='text-xl' />
-                </div>
-                <span className='ml-4 text-base'>+6281234567890</span>
-              </div>
             </div>
           </div>
         </div>
