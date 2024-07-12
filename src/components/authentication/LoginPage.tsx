@@ -69,7 +69,7 @@ export const LoginPage: React.FC = () => {
             return `Selamat datang, ${response.FirstName}!`;
           },
           error: (err) => {
-            return err.message || 'Failed to login';
+            return err.message || 'Gagal masuk!';
           },
         },
         {
@@ -90,7 +90,7 @@ export const LoginPage: React.FC = () => {
       if (value.trim()) {
         delete newErrors[name as keyof Errors];
       } else {
-        newErrors[name as keyof Errors] = `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+        newErrors[name as keyof Errors] = `${name.charAt(0).toUpperCase() + name.slice(1)} tidak boleh kosong`;
       }
       return newErrors;
     });

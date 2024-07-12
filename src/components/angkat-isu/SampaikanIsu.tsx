@@ -19,6 +19,7 @@ export const SampaikanIsu: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [userName, setUserName] = useState('User');
   const emojiPickerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -28,6 +29,8 @@ export const SampaikanIsu: React.FC = () => {
 
   useEffect(() => {
     const userToken = Cookies.get('token');
+    const storedUserName = Cookies.get('firstName');
+    setUserName(storedUserName || 'User');
     setIsLoggedIn(!!userToken);
   }, []);
 
@@ -160,7 +163,7 @@ export const SampaikanIsu: React.FC = () => {
     <div>
       <div className='flex items-center justify-between gap-10 border-2 border-gray-300 rounded-3xl py-4 lg:py-8 px-4 lg:px-16 bg-white shadow-md'>
         <div className='flex items-center'>
-          <h1 className='text-xl lg:text-3xl font-semibold'>Hai, <span className='text-primary'>User</span>!</h1>
+          <h1 className='text-xl lg:text-3xl font-semibold'>Hai, <span className='text-primary'>{userName}</span>!</h1>
         </div>
         <div className='flex-1'>
           <input

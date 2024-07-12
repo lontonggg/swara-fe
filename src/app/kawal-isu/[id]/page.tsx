@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { IoIosArrowBack } from 'react-icons/io';
 
 export default function Page({ params } : any) {
-  console.log(params)
   return (
     <div className="backgroundContainer h-screen">
       <Navbar />

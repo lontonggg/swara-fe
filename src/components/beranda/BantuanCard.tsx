@@ -11,7 +11,7 @@ export const BantuanCard = () => {
                 </div>
                 <h2 className='text-primary text-center text-2xl font-semibold mb-2'>Bantuan</h2>
                 <p className='text-black text-justify text-xs'>
-                    Pelajari hak-hak Anda dan bagaimana melaporkan pelaku dengan bantuan informasi kami.
+                    Jika Anda memiliki pertanyaan, membutuhkan bantuan hukum, atau ingin berdiskusi lebih lanjut, jangan ragu untuk menghubungi kami.
                 </p>
             </div>
         </Link>

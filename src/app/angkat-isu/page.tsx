@@ -31,7 +31,7 @@ export default function Page() {
     fetchIssues();
   }, []);
 
-  console.log(issues)
+  console.log(issues);
 
   return (
     <div className='backgroundContainer'>
@@ -56,7 +56,7 @@ export default function Page() {
         </div>
         {loading ? (
           <div className='flex justify-center items-center h-full'>
-            <ClipLoader size={50} color={'#123abc'} loading={loading} />
+            <ClipLoader size={50} color={'#C80036'} loading={loading} style={{ borderWidth: '5px' }} />
           </div>
         ) : (
           <div>
