@@ -1,5 +1,5 @@
 class APIService {
-    static BASE_URL = 'http://172.20.10.2:8000'
+    static BASE_URL = process.env.NEXT_PUBLIC_API
 
     static async register(userData: object) {
         try {
