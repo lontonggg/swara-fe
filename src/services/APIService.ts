@@ -146,19 +146,33 @@ class APIService {
         }
     }
     static async getIssueById(token: string, issueId: string) {
-        try {
-            const response = await fetch(`${this.BASE_URL}/angkat-isu/detail/${issueId}/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
+        if(token){
+            try {
+                const response = await fetch(`${this.BASE_URL}/angkat-isu/detail/${issueId}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error('Failed to fetch issue')
                 }
-            })
-            if (!response.ok) {
-                throw new Error('Failed to fetch issue')
+                return response.json()
+            } catch (error) {
+                throw error
             }
-            return response.json()
-        } catch (error) {
-            throw error
+        } else{
+            try {
+                const response = await fetch(`${this.BASE_URL}/angkat-isu/detail/${issueId}/`, {
+                    method: 'GET',
+                })
+                if (!response.ok) {
+                    throw new Error('Failed to fetch issue')
+                }
+                return response.json()
+            } catch (error) {
+                throw error
+            }
         }
     }
     static async postComment(token: string, issueId: string, comment: string) {
