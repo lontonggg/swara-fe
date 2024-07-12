@@ -3,12 +3,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FcGoogle } from 'react-icons/fc'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import APIService from '@/services/APIService'
 import { toast } from 'react-hot-toast'
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { GoogleLogin } from '@react-oauth/google';
 
 interface Errors {
   email?: string;
@@ -96,10 +96,42 @@ export const LoginPage: React.FC = () => {
     });
   };
 
+  const responseMessage = async (response: any) => {
+    const { credential } = response;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/google-auth/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ credential })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data)
+        Cookies.set('token', data.tokens, { expires: 0.5 });
+        Cookies.set('firstName', data.FirstName, { expires: 0.5 })
+        router.push('/');
+        toast.success('Login berhasil dengan Google!');
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.error || 'Login gagal!');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Login gagal!');
+    }
+  };
+
+  const errorMessage = () => {
+    toast.error('Login dengan Google gagal!');
+  };
+
   return (
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2 md:mx-10 lg:mx-24 xl:mx-44'>
-        <div className='h-screen flex flex-col justify-center px-8 sm:px-32 md:px-10 xl:px-20 gap-3'>
+        <div className='h-screen flex flex-col justify-center px-8 sm:px-32 md:px-10 xl:px-32 gap-3'>
           <h1 className='text-xl sm:text-3xl font-bold text-primary'>Selamat datang!</h1>
           <p className='text-xs lg:text-base'>
             Belum punya akun?{' '}
@@ -109,15 +141,14 @@ export const LoginPage: React.FC = () => {
               </span>
             </Link>
           </p>
-          <button
-            type='submit'
-            className='border border-primary rounded-xl text-primary p-2 font-semibold mt-3 transition-opacity duration-300 hover:opacity-75'
-          >
-            <div className='text-xs lg:text-base flex items-center justify-center gap-2'>
-              <FcGoogle />
-              Masuk dengan Google
-            </div>
-          </button>
+          <div className='flex items-center justify-center w-full mt-2'>
+            <GoogleLogin
+              onSuccess={responseMessage}
+              onError={errorMessage}
+              size='large'
+              width={1000}
+            />
+          </div>
           <div className='text-xs lg:text-base flex items-center my-2'>
             <hr className='flex-grow border-t border-gray-300' />
             <span className='mx-2 text-gray-500'>atau masuk dengan email anda</span>
