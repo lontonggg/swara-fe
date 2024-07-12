@@ -39,7 +39,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
+    <div className='backgroundContainer'>
       <Navbar />
       <div className='flex flex-col gap-10 mt-20 py-20 px-6 md:px-20 lg:px-24 xl:px-44'>
         <div>
@@ -73,6 +73,8 @@ export default function Page() {
             </div>
           </div>
         </>
+      </div>
+      <div className='px-6 md:px-20 lg:px-24 xl:px-44 mb-16'>
         <Footer />
       </div>
     </div>
