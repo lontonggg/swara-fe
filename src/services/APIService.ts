@@ -43,19 +43,33 @@ class APIService {
     }
 
     static async getIssues(token: string) {
-        try {
-            const response = await fetch(`${this.BASE_URL}/angkat-isu/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
+        if (token) {
+            try {
+                const response = await fetch(`${this.BASE_URL}/angkat-isu/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error('Failed to fetch issues')
                 }
-            })
-            if (!response.ok) {
-                throw new Error('Failed to fetch issues')
+                return response.json()
+            } catch (error) {
+                throw error
             }
-            return response.json()
-        } catch (error) {
-            throw error
+        } else {
+            try {
+                const response = await fetch(`${this.BASE_URL}/angkat-isu/`, {
+                    method: 'GET',
+                })
+                if (!response.ok) {
+                    throw new Error('Failed to fetch issues')
+                }
+                return response.json()
+            } catch (error) {
+                throw error
+            }
         }
     }
     static async likeIssue(token: string, issueId: string) {
@@ -141,6 +155,25 @@ class APIService {
             })
             if (!response.ok) {
                 throw new Error('Failed to fetch issue')
+            }
+            return response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+    static async postComment(token: string, issueId: string, comment: string) {
+        try {
+            const response = await fetch(`${this.BASE_URL}/angkat-isu/comment/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ PostId: issueId, Comment: comment })
+            })
+            if (response.status == 400) {
+                const errorResponse = await response.json()
+                throw new Error(errorResponse.message || 'Failed to post comment')
             }
             return response.json()
         } catch (error) {
