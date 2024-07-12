@@ -22,7 +22,7 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className='hidden md:flex flex-col items-center justify-center p-20'>
+          <div className='hidden md:flex flex-col items-center justify-center p-4'>
             <Image src='/cari-tau/cari-tau.png' width={500} height={500} alt='main-poster'/>
           </div>
         </div>
@@ -46,7 +46,7 @@ export default function Page() {
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
                 <Image src='/cari-tau/penjelasan.png' width={175} height={175} alt='main-poster' className='absolute -right-8 top-5 rotate-[35deg] z-20'/>
                 <div className='flex flex-col items-center justify-center relative z-10 bg-white bg-opacity-35 rounded-2xl w-full h-full'>
-                  <Image src='/cari-tau/kekerasan-seksual.png' width={300} height={300} alt='main-poster'/>
+                  <Image src='/cari-tau/kekerasan-seksual.png' width={200} height={200} alt='main-poster'/>
                   <h1 className='text-white text-2xl font-semibold text-center'>Kekerasan Seksual</h1>
                 </div>
               </div>
@@ -70,14 +70,14 @@ export default function Page() {
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
                 <Image src='/cari-tau/penjelasan.png' width={175} height={175} alt='main-poster' className='absolute -right-8 top-5 rotate-[35deg] z-20'/>
                 <div className='flex flex-col items-center justify-center relative z-10 bg-white bg-opacity-35 rounded-2xl w-full h-full'>
-                  <Image src='/cari-tau/perceraian.png' width={300} height={300} alt='main-poster'/>
+                  <Image src='/cari-tau/perceraian.png' width={200} height={200} alt='main-poster'/>
                   <h1 className='text-white text-2xl font-semibold text-center'>Perceraian</h1>
                 </div> 
               </div>
               <div className='flex justify-center items-center card-back card-content p-4'>
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
                 <div className='flex flex-col items-center justify-center relative z-10 bg-white rounded-2xl w-full h-full'>
-                  <h1 className='text-black text-lg font-medium p-4 text-center text-balance'>Kekerasan seksual adalah segala tindakan yang merendahkan, menghina, melecehkan, dan/atau menyerang tubuh serta fungsi...</h1>
+                  <h1 className='text-black text-lg font-medium p-4 text-center text-balance'>Dikutip dari Portal Jurnal Peneliti.net perceraian menurut perspektif Islam apabila telah diucapkan talak dari suami. Artinya bahwa...</h1>
                   <Link href='/cari-tau/perceraian'>
                     <div className='flex items-center font-semibold text-primary mt-2'>
                       <p className='hover:underline'>Pelajari lebih lanjut</p>
@@ -94,15 +94,15 @@ export default function Page() {
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
                 <Image src='/cari-tau/penjelasan.png' width={175} height={175} alt='main-poster' className='absolute -right-8 top-5 rotate-[35deg] z-20'/>
                 <div className='flex flex-col items-center justify-center relative z-10 bg-white bg-opacity-35 rounded-2xl w-full h-full'>
-                  <Image src='/cari-tau/narkoba.png' width={300} height={300} alt='main-poster'/>
-                  <h1 className='text-white text-2xl font-semibold text-center'>Penyalahgunaan Narkoba</h1>
+                  <Image src='/cari-tau/pinjaman-online.png' width={300} height={300} alt='main-poster'/>
+                  <h1 className='text-white text-2xl font-semibold text-center'>Pinjaman Online</h1>
                 </div>
               </div>
               <div className='flex justify-center items-center card-back card-content p-4'>
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
                 <div className='flex flex-col items-center justify-center relative z-10 bg-white rounded-2xl w-full h-full'>
-                  <h1 className='text-black text-lg font-medium p-4 text-center text-balance'>Kekerasan seksual adalah segala tindakan yang merendahkan, menghina, melecehkan, dan/atau menyerang tubuh serta fungsi...</h1>
-                  <Link href='/cari-tau/penyalahgunaan-narkoba'>
+                  <h1 className='text-black text-lg font-medium p-4 text-center text-balance'>Layanan pinjam meminjam uang berbasis teknologi informasi adalah penyelenggaraan layanan jasa keuangan untuk...</h1>
+                  <Link href='/cari-tau/pinjaman-online'>
                     <div className='flex items-center font-semibold text-primary mt-2'>
                       <p className='hover:underline'>Pelajari lebih lanjut</p>
                       <FaArrowRight />
