@@ -35,9 +35,9 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     router.push('/login')
+    setFirstName(null);
     Cookies.remove('token');
     Cookies.remove('firstName');
-    setFirstName(null);
     closeMenu();
   };
 

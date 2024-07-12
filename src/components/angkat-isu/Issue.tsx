@@ -12,6 +12,8 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import APIService from '../../services/APIService'; 
 import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 interface Comment {
     id: string;
@@ -19,6 +21,8 @@ interface Comment {
     CommentId: string | null;
     UserName: string;
     Comment: string;
+    UserRole: string;
+    UserEmail: string;
 }
 
 interface IssueProps {
@@ -30,7 +34,7 @@ interface IssueProps {
         Text: string;
         Votes: number;
         LikedByUser: boolean;
-        Comments: Comment | null;
+        Comments: Comment[];
         Images: { image: string }[];
     };
 }
@@ -40,6 +44,8 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
     const [comment, setComment] = useState('');
     const [votes, setVotes] = useState(issue.Votes);
     const [likedByUser, setLikedByUser] = useState(issue.LikedByUser);
+    const [comments, setComments] = useState<Comment[]>(issue.Comments || []);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
     const commentInputRef = useRef<HTMLInputElement>(null);
 
     const toggleReadMore = () => {
@@ -59,14 +65,18 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
 
     const handleLike = async () => {
         const token = Cookies.get('token') || '';
+        if (!token) {
+            setShowLoginPopup(true);
+            return;
+        }
+
         if (likedByUser) {
             try {
                 setVotes(votes - 1);
                 setLikedByUser(false);
                 await APIService.dislikeIssue(token, issue.PostId);
-                
             } catch (error) {
-                console.error('Failed to dislike issue:', error);
+                console.error('Gagal mengangkat isu:', error);
             }
         } else {
             try {
@@ -74,8 +84,42 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
                 setLikedByUser(true);
                 await APIService.likeIssue(token, issue.PostId);
             } catch (error) {
-                console.error('Failed to like issue:', error);
+                console.error('Gagal mengangkat isu:', error);
             }
+        }
+    };
+
+    const handlePostComment = async () => {
+        const token = Cookies.get('token') || '';
+        if (!token) {
+            setShowLoginPopup(true);
+            return;
+        }
+
+        const postCommentPromise = APIService.postComment(token, issue.PostId, comment);
+        
+        toast.promise(
+            postCommentPromise,
+            {
+                loading: 'Menambahkan komentar...',
+                success: 'Komentar berhasil ditambahkan!',
+                error: 'Gagal menambahkan komentar!',
+            },
+            {
+                style: {
+                    zIndex: 9999,
+                    fontSize: '18px',
+                    padding: '14px',
+                },
+            }
+        );
+
+        try {
+            const response = await postCommentPromise;
+            setComments((prevComments) => [...prevComments, response]);
+            setComment('');
+        } catch (error) {
+            console.error('Gagal menambahkan komentar!', error);
         }
     };
 
@@ -98,7 +142,7 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
                 {issue.Images.length > 0 ? (
                     <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows>
                         {issue.Images.map((img, idx) => (
-                            <div key={idx} className='relative flex flex-col items-center justify-center w-full h-[400px] bg-black'>
+                            <div key={idx} className='relative flex flex-col items-center justify-center w-full h-full bg-black'>
                                 <Image
                                     src={img.image}
                                     alt={`image-${idx}`}
@@ -106,13 +150,12 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
                                     height={400}
                                     width={400}
                                     objectFit='cover'
-                                    
                                 />
                             </div>
                         ))}
                     </Carousel>
                 ) : (
-                    <p className='text-center text-gray-500'>Tidak ada gambar untuk isu ini</p>
+                   <h1></h1>
                 )}
             </div>
             <div className='text-sm sm:text-base'>
@@ -172,14 +215,53 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                 />
-                <button className='absolute right-3 top-1/2 transform -translate-y-1/2'>
+                <button 
+                    className='absolute right-3 top-1/2 transform -translate-y-1/2'
+                    onClick={handlePostComment}
+                >
                     <PiPaperPlaneRight className='text-2xl' />
                 </button>
             </div>
-            {issue.Comments && (
-                <div className='mt-4'>
-                    <Comment comment={issue.Comments} />
-                </div>
+            <div className='flex flex-col gap-4 mt-4'>
+                {comments.map((comment, index) => (
+                    <Comment key={index} comment={comment} />
+                ))}
+            </div>
+            {showLoginPopup && (
+                <>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className='fixed inset-0 bg-gray-900 bg-opacity-50 z-40'
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className='fixed inset-0 flex items-center justify-center z-50'
+                    >
+                        <div className='bg-white rounded-3xl p-8 w-11/12 md:w-2/3 lg:w-1/3 shadow-lg relative'>
+                            <button
+                                className='absolute top-4 right-4 text-primary text-2xl'
+                                onClick={() => setShowLoginPopup(false)}
+                            >
+                                &times;
+                            </button>
+                            <div className='text-center'>
+                                <h2 className='text-xl font-bold mb-4'>Masuk terlebih dahulu!</h2>
+                                <p className='mb-4'>Anda harus masuk terlebih dahulu untuk mengakses fitur ini.</p>
+                                <Link href='/login'>
+                                    <button className='bg-primary text-white px-6 py-2 rounded-xl font-semibold transition-opacity duration-300 hover:opacity-75'>
+                                        Masuk
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
+                </>
             )}
         </div>
     );

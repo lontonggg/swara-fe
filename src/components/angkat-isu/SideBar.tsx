@@ -4,16 +4,16 @@ import { HiOutlineFire } from 'react-icons/hi';
 
 const dummyIssues = [
   {
-    title: 'lorem ipsum dolor sit amet',
-    author: 'By User',
+    title: 'Kasus Nenek Asyani Pertanda hukum yang lemah',
+    author: 'Oleh Alfaro Martinez',
   },
   {
-    title: 'lorem ipsum dolor sit amet',
-    author: 'By User',
+    title: 'Ahmad Irawan dituduh melakukan pelecehan seksual',
+    author: 'Oleh Tompi',
   },
   {
-    title: 'lorem ipsum dolor sit amet',
-    author: 'By User',
+    title: 'Warga Kampung Bayam yang “terombang-ambing” menanti realisasi janji pemerintah',
+    author: 'Oleh Firdaus',
   },
 ];
 
