@@ -7,6 +7,7 @@ import Footer from '@/components/common/Footer';
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 interface Errors {
   nama?: string;
@@ -14,6 +15,22 @@ interface Errors {
   subjek?: string;
   pesan?: string;
 }
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function Page() {
   const router = useRouter();
@@ -90,9 +107,15 @@ export default function Page() {
 
   return (
     <div className='backgroundContainer'>
+      <Toaster />
       <Navbar />
-      <div className='flex flex-col gap-10 mt-20 py-20 px-6 md:px-20 lg:px-24 xl:px-44'>
-        <div className='grid grid-cols-1 md:grid-cols-2'>
+      <motion.div
+        className='flex flex-col gap-10 mt-20 py-20 px-6 md:px-20 lg:px-24 xl:px-44'
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <motion.div className='grid grid-cols-1 md:grid-cols-2' variants={itemVariants}>
           <div className='hidden md:flex flex-col items-center justify-center p-20'>
             <Image src='/bantuan/bantuan.png' width={500} height={500} alt='main-poster' />
           </div>
@@ -102,8 +125,8 @@ export default function Page() {
               Jika Anda memiliki pertanyaan, membutuhkan bantuan hukum, atau ingin berdiskusi lebih lanjut, jangan ragu untuk menghubungi kami.
             </p>
           </div>
-        </div>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-10'>
+        </motion.div>
+        <motion.div className='grid grid-cols-1 md:grid-cols-3 gap-10' variants={itemVariants}>
           <div className='border-2 border-gray-300 rounded-3xl py-8 px-16 bg-white shadow-md mt-10 md:mt-0 md:col-span-2'>
             <form className='space-y-4' onSubmit={validateForm}>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -190,9 +213,11 @@ export default function Page() {
                 </div>
             </div>
           </div>
-        </div>
-        <Footer />
-      </div>
+        </motion.div>
+        <motion.div className='mt-10' variants={itemVariants}>
+          <Footer />
+        </motion.div>
+      </motion.div>
     </div>
   )
 }

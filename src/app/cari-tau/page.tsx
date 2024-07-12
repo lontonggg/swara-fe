@@ -6,14 +6,36 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa6';
 import Footer from '@/components/common/Footer';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function Page() {
   return (
     <div className='backgroundContainer'>
       <Navbar />
-      <div className='flex flex-col gap-10 mt-20 py-20 px-6 md:px-20 lg:px-24 xl:px-44'>
-        <h1 className='text-4xl md:text-5xl xl:text-6xl text-center font-bold text-primary'>Cari Tau</h1>
-        <div className='grid grid-cols-1 md:grid-cols-2 px-20'>
+      <motion.div
+        className='flex flex-col gap-10 mt-20 py-20 px-6 md:px-20 lg:px-24 xl:px-44'
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <motion.h1 className='text-4xl md:text-5xl xl:text-6xl text-center font-bold text-primary' variants={itemVariants}>Cari Tau</motion.h1>
+        <motion.div className='grid grid-cols-1 md:grid-cols-2 px-20' variants={itemVariants}>
           <div className='flex flex-col items-center justify-center md:px-10 gap-6 pt-8 md:pt-0'>
             <div className='flex flex-col gap-2'>
               <h1 className='text-5xl font-semibold leading-normal'>Jangan Biarkan Ketidakadilan</h1>
@@ -23,24 +45,24 @@ export default function Page() {
             </div>
           </div>
           <div className='hidden md:flex flex-col items-center justify-center p-4'>
-            <Image src='/cari-tau/cari-tau.png' width={500} height={500} alt='main-poster'/>
+            <Image src='/cari-tau/cari-tau.png' width={500} height={500} alt='main-poster' />
           </div>
-        </div>
-        <div className='flex justify-end'>
-          <Image src='/cari-tau/arrow.png' width={400} height={400} alt='main-poster' className='-mt-44'/>
+        </motion.div>
+        <motion.div className='flex justify-end' variants={itemVariants}>
+          <Image src='/cari-tau/arrow.png' width={400} height={400} alt='main-poster' className='-mt-44' />
           <div className='text-xl w-1/2 h-fit border-2 border-gray-300 rounded-3xl py-8 px-16 bg-white shadow-md -mt-10'>
             Pelajari hak-hak Anda dan bagaimana melaporkan 
             pelaku dengan bantuan informasi kami
           </div>
-        </div>
-        <div className='mt-24'>
+        </motion.div>
+        <motion.div className='mt-24' variants={itemVariants}>
           <h1 className='text-center text-5xl font-semibold'>
             <span className='bg-primary py-1 px-4 rounded-3xl text-white leading-relaxed'>Cari tau</span> bagaimana tindak <br /> hukum masalahmu
           </h1>
           <p className='text-center text-2xl mt-10 font-medium'>Pilih jenis masalah dibawah ini</p>
-        </div>
-        <div className='grid grid-cols-1 gap-10 lg:grid-cols-3 mt-10'>
-          <div className='flex justify-center items-center card-container'>
+        </motion.div>
+        <motion.div className='grid grid-cols-1 gap-10 lg:grid-cols-3 mt-10' variants={containerVariants}>
+          <motion.div className='flex justify-center items-center card-container' variants={itemVariants}>
             <div className='card'>
               <div className='card-front card-content overflow-hidden p-6'>
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
@@ -63,8 +85,8 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className='flex justify-center items-center card-container'>
+          </motion.div>
+          <motion.div className='flex justify-center items-center card-container' variants={itemVariants}>
             <div className='card'>
               <div className='card-front card-content overflow-hidden p-6'>
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
@@ -87,8 +109,8 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className='flex justify-center items-center card-container'>
+          </motion.div>
+          <motion.div className='flex justify-center items-center card-container' variants={itemVariants}>
             <div className='card'>
               <div className='card-front card-content overflow-hidden p-6'>
                 <Image src='/cari-tau/card-background.png' layout='fill' objectFit='cover' alt='background' className='card-background rounded-2xl'/>
@@ -111,12 +133,12 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className='mt-20'>
+          </motion.div>
+        </motion.div>
+        <motion.div className='mt-20' variants={itemVariants}>
           <Footer />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

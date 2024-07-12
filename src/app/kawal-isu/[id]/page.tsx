@@ -5,12 +5,37 @@ import React from 'react';
 import { IssueStatus } from '@/components/kawal-isu/IssueStatus';
 import Link from 'next/link';
 import { IoIosArrowBack } from 'react-icons/io';
+import { motion } from 'framer-motion';
 
-export default function Page({ params } : any) {
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+export default function Page({ params }: any) {
   return (
-    <div className="backgroundContainer h-screen">
+    <motion.div
+      className="backgroundContainer h-screen"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       <Navbar />
-      <div className="flex flex-col gap-10 py-20 px-6 md:px-20 lg:px-24 xl:px-44">
+      <motion.div
+        className="flex flex-col gap-10 py-20 px-6 md:px-20 lg:px-24 xl:px-44"
+        variants={itemVariants}
+      >
         <Link href="/angkat-isu">
           <div className="flex gap-2 items-center text-primary text-xl font-semibold pt-24">
             <IoIosArrowBack className="text-2xl" />
@@ -18,7 +43,7 @@ export default function Page({ params } : any) {
           </div>
         </Link>
         {params.id && <IssueStatus issueId={params.id} />}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
