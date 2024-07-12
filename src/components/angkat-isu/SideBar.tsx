@@ -36,9 +36,6 @@ export const SideBar = () => {
         </div>
       ))}
       <br />
-      <button className='font-semibold bg-primary text-sm py-2 px-4 xl:px-8 rounded-2xl text-white transition-opacity duration-300 hover:opacity-75'>
-        Lihat Lainnya
-      </button>
     </div>
   );
 };

@@ -74,7 +74,7 @@ export const IssueStatus: React.FC<IssueStatusProps> = ({ issueId }) => {
   return (
     <div className="flex flex-col items-center border-2 border-gray-300 rounded-3xl p-20 bg-white shadow-md">
       <h2 className="text-4xl font-bold text-primary mb-10">Kawal Isu</h2>
-      <h1 className="text-4xl font-semibold text-black mb-20">{`"${issue.Title}"`}</h1>
+      <h1 className="text-4xl font-semibold text-black mb-20 text-center">{`"${issue.Title}"`}</h1>
       <ProgressBar steps={steps} currentStep={currentStep} />
     </div>
   );
