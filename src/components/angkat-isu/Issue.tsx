@@ -134,7 +134,7 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
                     Komentar
                 </button>
                 <div 
-                    className={`flex items-center gap-2 md:gap-3 text-sm md:text-base cursor-pointer ${likedByUser ? 'text-primary hover:text-primary/80 transition-colors duration-300' : 'text-gray-400 hover:text-primary transition-colors duration-300'}`}
+                    className={`flex items-center gap-2 md:gap-3 text-sm md:text-base cursor-pointer ${likedByUser ? 'text-primary hover:text-primary/80 transition-colors duration-300' : 'text-gray-500 hover:text-primary transition-colors duration-300'}`}
                     onClick={handleLike}
                 >
                     <MdKeyboardDoubleArrowUp className='text-2xl md:text-3xl' />
