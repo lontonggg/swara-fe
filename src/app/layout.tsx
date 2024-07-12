@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "SWARA",
 };
 
-const clientId = '1050935085571-19fqb7jgdgfh16ne190o1jko8dtnuljj.apps.googleusercontent.com';
+const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
 
 export default function RootLayout({
   children,
