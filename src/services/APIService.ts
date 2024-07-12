@@ -42,9 +42,14 @@ class APIService {
         }
       }
 
-    static async getIssues() {
+    static async getIssues(token: string) {
         try {
-            const response = await fetch(`${this.BASE_URL}/angkat-isu/`)
+            const response = await fetch(`${this.BASE_URL}/angkat-isu/` , {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             if (!response.ok) {
                 throw new Error('Failed to fetch issues')
             }
@@ -53,4 +58,77 @@ class APIService {
             throw error
         }
     }
+    static async likeIssue(token: string, issueId: string) {
+        try {
+            const response = await fetch(`${this.BASE_URL}/angkat-isu/like/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({PostId: issueId})
+            })
+            if (response.status == 404) {
+                throw new Error('Failed to like issue')
+            }
+            return response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+    static async dislikeIssue(token: string, issueId: string) {
+        try {
+            const response = await fetch(`${this.BASE_URL}/angkat-isu/like/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({PostId: issueId})
+            })
+            if (response.status == 404) {
+                throw new Error('Failed to dislike issue')
+            }
+            return response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+    static async postIssue(token: string, issueData: object) {
+        try {
+            const response = await fetch(`${this.BASE_URL}/angkat-isu/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(issueData)
+            })
+            if (response.status == 400) {
+                const errorResponse = await response.json()
+                throw new Error(errorResponse.message || 'Failed to post issue')
+            }
+            return response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+    static async postIssueImages(token: string, issueId: string, formData: FormData) {
+      try {
+          const response = await fetch(`${this.BASE_URL}/angkat-isu/upload/${issueId}/`, {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+              },
+              body: formData
+          });
+          if (response.status == 400) {
+              const errorResponse = await response.json();
+              throw new Error(errorResponse.message || 'Failed to post images');
+          }
+          return response.json();
+      } catch (error) {
+          throw error;
+      }
+  }
 } export default APIService;

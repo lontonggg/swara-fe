@@ -11,7 +11,7 @@ interface CommentProps {
   };
 }
 
-const Comment: React.FC<CommentProps> = ({ comment }) => {
+export const Comment: React.FC<CommentProps> = ({ comment }) => {
   return (
     <div className='flex items-center w-full bg-gray-100 rounded-2xl px-4 py-2'>
       <div className='flex gap-4 items-center'>
@@ -24,5 +24,3 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
     </div>
   );
 };
-
-export default Comment;
