@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaRegCircleUser, FaRegCommentDots } from 'react-icons/fa6';
 import { HiOutlinePresentationChartLine, HiOutlineSpeakerphone } from 'react-icons/hi';
 import { MdKeyboardDoubleArrowUp } from 'react-icons/md';
 import { PiPaperPlaneRight } from 'react-icons/pi';
 import Comment from './Comment';
+import Link from 'next/link';
 
 interface Comment {
   id: string;
@@ -31,6 +32,7 @@ interface IssueProps {
 export const Issue: React.FC<IssueProps> = ({ issue }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [comment, setComment] = useState('');
+  const commentInputRef = useRef<HTMLInputElement>(null);
 
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
@@ -38,9 +40,14 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
 
   const handleAutofill = (text: string) => {
     setComment(text);
+    commentInputRef.current?.focus();
   };
 
   const truncatedText = issue.Text.length > 200 ? issue.Text.substring(0, 200) + '...' : issue.Text;
+
+  const focusCommentInput = () => {
+    commentInputRef.current?.focus();
+  };
 
   console.log(issue.Comments)
 
@@ -76,23 +83,30 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
         <hr className='flex-grow border-t border-gray-400' />
       </div>
       <div className='grid gap-2 grid-cols-2 md:flex md:gap-0 justify-between font-semibold'>
-        <div className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'>
+        <button 
+          className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'
+          onClick={focusCommentInput}
+        >
           <FaRegCommentDots className='text-2xl md:text-3xl text-primary' />
           Komentar
-        </div>
+        </button>
         <div className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'>
           <MdKeyboardDoubleArrowUp className='text-2xl md:text-3xl text-primary' />
           Naikkan Isu
         </div>
-        <div className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'>
-          <HiOutlineSpeakerphone className='text-2xl md:text-3xl text-primary' />
-          Laporkan
-        </div>
-      
-        <div className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'>
-            <HiOutlinePresentationChartLine className='text-2xl md:text-3xl text-primary ' />
-            Kawal Isu
-        </div>
+        <Link href={'/bantuan'}>
+            <div className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'>
+            <HiOutlineSpeakerphone className='text-2xl md:text-3xl text-primary' />
+            Laporkan
+            </div>
+        </Link>
+        <Link href={'/kawal-isu/' + issue.PostId}>
+            <div className='flex items-center gap-2 md:gap-3 text-sm md:text-base hover:text-primary/80 transition-colors duration-300'>
+                <HiOutlinePresentationChartLine className='text-2xl md:text-3xl text-primary ' />
+                Kawal Isu
+            </div>
+        </Link>
+        
       </div>
       <div className='flex sm:grid grid-cols-3 gap-2 justify-between font-medium mt-4 text-gray-500 text-xs sm:text-base md:text-base'>
         <button onClick={() => handleAutofill('Bantu viralkan!')} className='border-2 border-gray-300 rounded-xl md:py-2 py-2 px-2 md:px-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent'>
@@ -107,6 +121,7 @@ export const Issue: React.FC<IssueProps> = ({ issue }) => {
       </div>
       <div className='mt-6 relative'>
         <input 
+          ref={commentInputRef}
           className='w-full border-2 border-gray-300 p-2 rounded-2xl pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm md:text-base' 
           placeholder='Tambahkan komentar anda...'
           value={comment}
