@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { MainPoster } from '@/components/angkat-isu/MainPoster';
 import { SampaikanIsu } from '@/components/angkat-isu/SampaikanIsu';
 import { Navbar } from '@/components/common/Navbar';
@@ -46,9 +47,7 @@ export default function Page() {
     };
 
     fetchIssues();
-  }, []);
-
-  console.log(issues);
+  });
 
   return (
     <div className='backgroundContainer'>
@@ -68,12 +67,6 @@ export default function Page() {
         <motion.div variants={itemVariants}>
           <div className='flex justify-between items-center'>
             <h1 className='text-2xl md:text-4xl font-bold text-primary'>Isu Terkini</h1>
-            <select className='md:text-lg border-2 border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent'>
-              <option disabled hidden>Sort by</option>
-              <option className='p-2'>Top Isu</option>
-              <option className='p-2'>Terbaru</option>
-              <option className='p-2'>Isu Anda</option>
-            </select>
           </div>
         </motion.div>
         {loading ? (
