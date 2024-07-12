@@ -1,64 +1,90 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import Image from 'next/image'
-import { Navbar } from '@/components/common/Navbar'
-import Footer from '@/components/common/Footer'
-import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa'
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Navbar } from '@/components/common/Navbar';
+import Footer from '@/components/common/Footer';
+import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface Errors {
-  nama?: string
-  email?: string
-  subjek?: string
-  pesan?: string
+  nama?: string;
+  email?: string;
+  subjek?: string;
+  pesan?: string;
 }
 
 export default function Page() {
-  const [errors, setErrors] = useState<Errors>({})
+  const router = useRouter();
+  const [errors, setErrors] = useState<Errors>({});
 
   const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return re.test(String(email).toLowerCase())
-  }
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
 
   const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const form = event.target as HTMLFormElement
-    const newErrors: Errors = {}
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const newErrors: Errors = {};
 
-    const namaInput = form.elements.namedItem('nama') as HTMLInputElement
-    const emailInput = form.elements.namedItem('email') as HTMLInputElement
-    const subjekInput = form.elements.namedItem('subjek') as HTMLInputElement
-    const pesanInput = form.elements.namedItem('pesan') as HTMLTextAreaElement
+    const namaInput = form.elements.namedItem('nama') as HTMLInputElement;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    const subjekInput = form.elements.namedItem('subjek') as HTMLInputElement;
+    const pesanInput = form.elements.namedItem('pesan') as HTMLTextAreaElement;
 
     if (!namaInput.value.trim()) {
-      newErrors.nama = 'Nama lengkap tidak boleh kosong'
+      newErrors.nama = 'Nama lengkap tidak boleh kosong';
     }
     if (!emailInput.value.trim()) {
-      newErrors.email = 'Alamat email tidak boleh kosong'
+      newErrors.email = 'Alamat email tidak boleh kosong';
     } else if (!validateEmail(emailInput.value.trim())) {
-      newErrors.email = 'Alamat email tidak valid'
+      newErrors.email = 'Alamat email tidak valid';
     }
     if (!subjekInput.value.trim()) {
-      newErrors.subjek = 'Subjek pesan tidak boleh kosong'
+      newErrors.subjek = 'Subjek pesan tidak boleh kosong';
     }
     if (!pesanInput.value.trim()) {
-      newErrors.pesan = 'Pesan tidak boleh kosong'
+      newErrors.pesan = 'Pesan tidak boleh kosong';
     }
 
-    setErrors(newErrors)
-  }
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      sendEmail();
+    }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     setErrors((prevErrors) => {
-      const newErrors = { ...prevErrors }
+      const newErrors = { ...prevErrors };
       if (value.trim()) {
-        delete newErrors[name as keyof Errors]
+        delete newErrors[name as keyof Errors];
       } else {
-        newErrors[name as keyof Errors] = `${name.charAt(0).toUpperCase() + name.slice(1)} is required`
+        newErrors[name as keyof Errors] = `${name.charAt(0).toUpperCase() + name.slice(1)} tidak boleh kosong`;
       }
-      return newErrors
+      return newErrors;
+    });
+  };
+
+  const sendEmail = () => {
+    toast.promise(
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve('Email berhasil dikirim!');
+        }, 2000);
+      }),
+      {
+        loading: 'Mengirim email...',
+        success: 'Email berhasil dikirim!',
+        error: 'Gagal mengirim email!',
+      }
+    ).then(() => {
+      setTimeout(() => {
+        router.push('/')
+      }, 1000)
     })
   }
 
