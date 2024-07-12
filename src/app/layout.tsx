@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className='font-poppins'>
+      <body className='font-poppins leading-loose'>
         {children}
       </body>
     </html>

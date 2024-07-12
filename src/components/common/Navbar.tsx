@@ -32,6 +32,9 @@ export const Navbar = () => {
           <Link href='/cari-tau'>
             <h1 className={`text-left ${pathname.startsWith('/cari-tau') ? 'text-primary' : ''} hover:text-primary/80 transition-colors duration-300`}>Cari Tau</h1>
           </Link>
+          <Link href='/bantuan'>
+            <h1 className={`text-left ${pathname === '/bantuan' ? 'text-primary' : ''} hover:text-primary/80 transition-colors duration-300`}>Bantuan</h1>
+           </Link>
             <div
               className='relative'
               onMouseEnter={() => setDropdownOpen(true)}
